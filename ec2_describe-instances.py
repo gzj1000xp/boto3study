@@ -5,6 +5,10 @@ Filters = [
     {
         'Name': 'tag:Env',
         'Values': ['test']
+    },
+    {
+        'Name': 'tag:Name',
+        'Values': ['*']
     }
 ]
 InstanceIds = []
