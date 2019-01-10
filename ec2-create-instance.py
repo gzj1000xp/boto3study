@@ -72,6 +72,7 @@ if TAGS == 'ERROR':
 # 执行创建
 ec2 = boto3.client('ec2')
 response = ec2.run_instances(
+    DryRun=True,
     BlockDeviceMappings=HARDDISK,
     ImageId=IMAGE_ID,
     InstanceType=INSTANCE_TYPE,
@@ -81,7 +82,5 @@ response = ec2.run_instances(
     TagSpecifications=TAGS,
     MaxCount=1,
     MinCount=1,
-    DisableApiTermination=True,
-    DryRun=True
+    DisableApiTermination=True
 )
-
