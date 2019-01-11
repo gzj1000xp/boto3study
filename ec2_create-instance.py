@@ -1,4 +1,5 @@
 import boto3
+import os
 
 
 # 安全组
@@ -84,3 +85,6 @@ response = ec2.run_instances(
     MinCount=1,
     DisableApiTermination=True
 )
+
+instance_id = response['Instances'][0]['InstanceId']
+os.system("python3 ec2_add-volume-tags.py %s" % instance_id)
