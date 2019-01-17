@@ -87,4 +87,5 @@ response = ec2.run_instances(
 )
 
 instance_id = response['Instances'][0]['InstanceId']
+print(instance_id)
 os.system("python3 ec2_add-volume-tags.py %s" % instance_id)
