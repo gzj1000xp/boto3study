@@ -58,6 +58,7 @@ def tags(INSTANCE_NAME, ENV):
 
 
 # 参数定义
+DRYRUN = True
 INSTANCE_NAME = "INSNAME"
 HARDDISK = _100G
 IMAGE_ID = AMZ_LINUX2
@@ -73,7 +74,7 @@ if TAGS == 'ERROR':
 # 执行创建
 ec2 = boto3.client('ec2')
 response = ec2.run_instances(
-    DryRun=True,
+    DryRun=DRYRUN,
     BlockDeviceMappings=HARDDISK,
     ImageId=IMAGE_ID,
     InstanceType=INSTANCE_TYPE,
@@ -88,4 +89,5 @@ response = ec2.run_instances(
 
 instance_id = response['Instances'][0]['InstanceId']
 print(instance_id)
+
 os.system("python3 ec2_add-volume-tags.py %s" % instance_id)
