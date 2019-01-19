@@ -1,6 +1,6 @@
 import boto3
 import os
-
+import time
 
 # 安全组
 SG_ENV3_NO_LIMIT = ['sg-']
@@ -88,6 +88,12 @@ response = ec2.run_instances(
 )
 
 instance_id = response['Instances'][0]['InstanceId']
-print(instance_id)
+private_ip = response['Instances'][0]['NetworkInterfaces'][0]['PrivateIpAddress']
+
+# print(instance_id)
+print(INSTANCE_NAME)
+print(private_ip)
+
+time.sleep(5)
 
 os.system("python3 ec2_add-volume-tags.py %s" % instance_id)
