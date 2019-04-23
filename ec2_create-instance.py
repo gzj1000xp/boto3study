@@ -66,6 +66,7 @@ KEY_NAME = KEY_NAME_ENV2
 INSTANCE_TYPE = _4C16G
 SG_ID = SG_ENV2_NO_LIMIT
 SUBNET_ID = SUBNET_ENV2_PRIVATE
+CPUCREDITS = {"CpuCredits": "unlimited"}
 
 TAGS = tags(INSTANCE_NAME, 'ENV')
 if TAGS == 'ERROR':
@@ -84,6 +85,7 @@ response = ec2.run_instances(
     TagSpecifications=TAGS,
     MaxCount=1,
     MinCount=1,
+    # CreditSpecification=CPUCREDITS,
     DisableApiTermination=True
 )
 
