@@ -38,7 +38,7 @@ def p():
     print('instance_ip: ' + target_ip)
     print('instance_environment: ' + instance_env)
     print('instance_type: ' + instance_type)
-    print('volume_id: ' + str(volume_id))
+    print('volume_id: ' + str(list(volume_id)))
     print('blockdevice_mapping: ' + str(BLOCK_DEVICE_MAPPING))
 
 
@@ -64,24 +64,25 @@ def tags(INSTANCE_NAME, ENV):
 def get_volume_id():
     # 从当前instance的信息中读出volume_id信息，记录至列表中
     for i in range(len(block_device_mappings)):
-        device_name.append(block_device_mappings[i]['DeviceName'])
-        volume_id.append(block_device_mappings[i]['Ebs']['VolumeId'])
+        device_name[block_device_mappings[i]['Ebs']['VolumeId']] = block_device_mappings[i]['DeviceName']
+        volume_id_list.append(block_device_mappings[i]['Ebs']['VolumeId'])
+        volume_id[block_device_mappings[i]['Ebs']['VolumeId']] = volume_id_list[i]
 
 
 def get_volume_size():
     # describe volumes
-    response_volume = ec2.describe_volumes(VolumeIds=volume_id)
-    for i in range(len(block_device_mappings)):
-        volume_size.append(response_volume["Volumes"][i]["Size"])
+    response_volume = ec2.describe_volumes(VolumeIds=volume_id_list)
+    for i in range(len(volume_id_list)):
+        volume_size[response_volume["Volumes"][i]["VolumeId"]] = response_volume["Volumes"][i]["Size"]
 
 
 def get_block_device_mapping():
     # write
-    for a in range(len(block_device_mappings)):
+    for a in range(len(volume_id_list)):
         BLOCK_DEVICE_MAPPING[a]['Ebs'] = dict()
-    for b in range(len(block_device_mappings)):
-        BLOCK_DEVICE_MAPPING[b]['DeviceName'] = device_name[b]
-        BLOCK_DEVICE_MAPPING[b]['Ebs']['VolumeSize'] = volume_size[b]
+    for b in range(len(volume_id_list)):
+        BLOCK_DEVICE_MAPPING[b]['DeviceName'] = device_name[volume_id_list[b]]
+        BLOCK_DEVICE_MAPPING[b]['Ebs']['VolumeSize'] = volume_size[volume_id_list[b]]
         BLOCK_DEVICE_MAPPING[b]['Ebs']['VolumeType'] = 'gp2'
         BLOCK_DEVICE_MAPPING[b]['Ebs']['DeleteOnTermination'] = True
 
@@ -96,9 +97,10 @@ for i in range(len(response['Reservations'])):
     instance_id = response['Reservations'][i]['Instances'][0]['InstanceId']
     instance_tags = response['Reservations'][i]['Instances'][0]['Tags']
     block_device_mappings = response['Reservations'][i]['Instances'][0]['BlockDeviceMappings']
-    volume_id = []
-    volume_size = []
-    device_name = []
+    volume_id = {}
+    volume_id_list = []
+    volume_size = {}
+    device_name = {}
     BLOCK_DEVICE_MAPPING = []
 
     for j in range(len(instance_tags)):
