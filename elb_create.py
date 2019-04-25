@@ -4,17 +4,17 @@ import boto3
 ELB_NAME = ''
 
 # 安全组
-SG_HTTP_BASIC = ['sg-095c85e35bbe52cf5']
+SG_HTTP_BASIC = ['sg-']
 
 # 子网
-SUBNET_PROD_PRIVATE = 'subnet-451b9621'
-SUBNET_PROD_PUBLIC = 'subnet-cd23a3a9'
-SUBNET_PROD_PUBLIC_B = 'subnet-0675974d08fd79717'
-SUBNET_ALPHA_PRIVATE = 'subnet-04ecc376675ae9f11'
-SUBNET_ALPHA_PUBLIC = 'subnet-0d2d3df7c786088cf'
-SUBNET_DEV_PRIVATE = 'subnet-d9a924bd'
-SUBNET_DEV_PUBLIC = 'subnet-409b1624'
-SUBNET_DEV_PUBLIC_B = 'subnet-01ce93821d6812384'
+SUBNET_PROD_PRIVATE = 'subnet-'
+SUBNET_PROD_PUBLIC = 'subnet-'
+SUBNET_PROD_PUBLIC_B = 'subnet-'
+SUBNET_ALPHA_PRIVATE = 'subnet-'
+SUBNET_ALPHA_PUBLIC = 'subnet-'
+SUBNET_DEV_PRIVATE = 'subnet-'
+SUBNET_DEV_PUBLIC = 'subnet-'
+SUBNET_DEV_PUBLIC_B = 'subnet-'
 
 # 内网or公网
 SCHEME_PUBLIC = 'internet-facing'
